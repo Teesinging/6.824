@@ -77,7 +77,19 @@ func main() {
 		for k := i; k < j; k++ {
 			values = append(values, intermediate[k].Value)
 		}
+
+		// testcode
+		fmt.Println("values create success!")
+		fmt.Println(values)
+		// testcode
+
 		output := reducef(intermediate[i].Key, values)
+
+		// testcode
+		fmt.Println("output create success!")
+		fmt.Println(intermediate[i].Key)
+		fmt.Println(output)
+		// testcode
 
 		// this is the correct format for each line of Reduce output.
 		fmt.Fprintf(ofile, "%v %v\n", intermediate[i].Key, output)
