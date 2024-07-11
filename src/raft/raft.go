@@ -1293,3 +1293,16 @@ func (rf *Raft) recoverFromSnap(snapshot []byte) {
 
 	DPrintf("Server %d recover from crash and send SnapshotMsg to ApplyCh.\n", rf.me)
 }
+
+// 检查raft是否有当前term的日志
+func (rf *Raft) CheckCurrentTermLog() bool {
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+
+	lastLog := rf.log[len(rf.log)-1]
+	// if rf.currentTerm == lastLog.Term {
+	// 	return true
+	// }
+	// return false
+	return rf.currentTerm == lastLog.Term
+}

@@ -24,18 +24,22 @@ const NShards = 10
 // Please don't change this.
 type Config struct {
 	Num    int              // config number
-	Shards [NShards]int     // shard -> gid
+	Shards [NShards]int     // shard -> gid 数组，零值为每个元素均为对应零值的数组
 	Groups map[int][]string // gid -> servers[]
 }
 
+// Err类型
 const (
-	OK = "OK"
+	OK         = "OK"
+	ErrTimeOut = "ErrTimeOut"
 )
 
 type Err string
 
 type JoinArgs struct {
-	Servers map[int][]string // new GID -> servers mappings
+	Servers  map[int][]string // new GID -> servers mappings
+	ClientId int64
+	SeqNum   int
 }
 
 type JoinReply struct {
@@ -44,7 +48,9 @@ type JoinReply struct {
 }
 
 type LeaveArgs struct {
-	GIDs []int
+	GIDs     []int
+	ClientId int64
+	SeqNum   int
 }
 
 type LeaveReply struct {
@@ -53,8 +59,10 @@ type LeaveReply struct {
 }
 
 type MoveArgs struct {
-	Shard int
-	GID   int
+	Shard    int
+	GID      int
+	ClientId int64
+	SeqNum   int
 }
 
 type MoveReply struct {
@@ -63,7 +71,9 @@ type MoveReply struct {
 }
 
 type QueryArgs struct {
-	Num int // desired config number
+	Num      int // desired config number
+	ClientId int64
+	SeqNum   int
 }
 
 type QueryReply struct {
