@@ -1076,14 +1076,16 @@ func (rf *Raft) Snapshot(index int, snapshot []byte) {
 	return
 }
 
+// leader向follower发送快照的RPC请求结构
 type InstallSnapshotArgs struct {
 	Term              int
-	LeaderId          int
-	LastIncludedIndex int
-	LastIncludedTerm  int
+	LeaderId          int // 便于follower将client重定向到leader
+	LastIncludedIndex int // 快照替换的最后一个条目的index
+	LastIncludedTerm  int // 快照替换的最后一个条目的term
 	SnapshotData      []byte
 }
 
+// leader向follower发送快照的RPC回复结构
 type InstallSnapshotReply struct {
 	Term   int  // RPC接收server的current term，leader更新自己用（如果需要的话）
 	Accept bool // follower是否接受这个快照
